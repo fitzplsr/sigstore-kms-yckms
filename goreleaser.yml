@@ -7,6 +7,9 @@ builds:
       - linux
     goarch:
       - amd64
+    ldflags: |
+      -w
+      -s
 
 archives:
   - format: binary
@@ -23,3 +26,28 @@ release:
   github:
     owner: fitzplsr
     name: sigstore-kms-yckms
+
+sboms:
+  - artifacts: archive
+    cmd: .tool/syft
+    documents:
+      - "{{ .Binary }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}.sbom"
+    args:
+      - "scan"
+      - "$artifact"
+      - "--output"
+      - "json=$document"
+
+signs:
+  - cmd: .tool/cosign
+    signature: "${artifact}.sig"
+    certificate: "${artifact}.pem"
+    args:
+      - "sign-blob"
+      - "--use-signing-config=false"
+      - "--oidc-issuer=https://token.actions.githubusercontent.com"
+      - "--output-certificate=${certificate}"
+      - "--output-signature=${signature}"
+      - "${artifact}"
+      - "--yes"
+    artifacts: checksum

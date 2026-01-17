@@ -50,3 +50,17 @@ tools:
     method: github-release
     with:
       repo: rinchsan/gosimports
+
+  - name: syft
+    version:
+      want: latest
+    method: github-release
+    with:
+      repo: anchore/syft
+
+  - name: cosign
+    version:
+      want: v3.0.4
+    method: github-release
+    with:
+      repo: sigstore/cosign
