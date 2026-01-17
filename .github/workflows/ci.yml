@@ -39,6 +39,10 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: '1.25.6'
+      - name: Install task
+        run: make ci-bootstrap-go
+      - name: Install tools
+        run: make tools
       - uses: goreleaser/goreleaser-action@v6
         with:
           version: latest
