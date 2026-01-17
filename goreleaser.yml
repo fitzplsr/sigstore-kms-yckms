@@ -29,7 +29,7 @@ release:
 
 sboms:
   - artifacts: binary
-    cmd: .tool/syft
+    cmd: ../.tool/syft
     documents:
       - "{{ .Binary }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}.sbom"
     args:
